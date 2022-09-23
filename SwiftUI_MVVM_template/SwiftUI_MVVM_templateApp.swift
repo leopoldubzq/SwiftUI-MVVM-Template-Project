@@ -1,17 +1,20 @@
-//
-//  SwiftUI_MVVM_templateApp.swift
-//  SwiftUI_MVVM_template
-//
-//  Created by Leopold Romanowski on 23/09/2022.
-//
-
 import SwiftUI
 
 @main
 struct SwiftUI_MVVM_templateApp: App {
+    
+    let dependenciesFactory = DependenciesFactory()
+    private let viewFactory: ViewFactory
+    private let tabViewFactory: TabViewFactory
+    
+    init() {
+        viewFactory = ViewFactory(dependenciesFactory: dependenciesFactory)
+        tabViewFactory = TabViewFactory(dependenciesFactory: dependenciesFactory, viewFactory: viewFactory)
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: ContentViewModel(tabBarFactory: tabViewFactory))
         }
     }
 }
