@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 struct HomeView<ViewModel: Home.ViewModel>: View {
     
@@ -15,11 +16,22 @@ struct HomeView<ViewModel: Home.ViewModel>: View {
                     NavigationLink {
                         viewModel.makeArticleDetailsView(article: model)
                     } label: {
-                        Text(model.title)
+                        HStack(alignment: .top) {
+                            VStack {
+                                KFImage(model.imageUrl)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 50, height: 50)
+                                    .cornerRadius(12)
+                                    .padding(.top, 10)
+                                Spacer()
+                            }
+                            Text(model.title)
+                                .padding(.top, 7)
+                        }
                     }
                 }
                 .listStyle(.plain)
-                
                 .navigationTitle("Home screen")
                 
                 if viewModel.state == .loading { Spinner() }
